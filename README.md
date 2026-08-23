@@ -3,7 +3,8 @@
 个人 Claude Code / Agent Skill：把一句话创意、故事或小说改编为多集短剧剧本，拆分为分镜头脚本，编译成可直接粘贴到 Seedance（即梦）2.0 / 2.5 的视频提示词，并管理多集连载的集间衔接。
 
 - 默认 Seedance 2.0（时间轴体），可切 2.5（Shot 体）
-- 输出格式：8+1 区块分镜脚本（风格画质 / 时间 / 场景 / 人物 / 分镜时间轴+内联台词 / 光影 / 肤质 / 声音 / 限制）
+- 输出格式：8+1 区块分镜脚本（风格画质 / 时间 / 场景 / 人物 / 分镜时间轴+内联台词 / 光影 / 肤质 / 声音 / 参考 / 限制）；1 条提示词 = 1 次生成
+- 单集超过单条上限时自动给出拆条/版本方案对比（2.0 N 条 / 2.5 M 条 / 2.5 超长一条）
 - 附资产参考图（C/S/P）提示词、尾帧五要素、状态胶囊（跨会话续写）、`scripts/check_prompt.py` 自检器
 - 设计决策与来源见 [DESIGN.md](DESIGN.md)
 
@@ -31,21 +32,23 @@ git clone <repo-url> .claude/skills/seedance-studio
 
 重启会话后自动注册，说「视频提示词 / 分镜 / 短剧」等关键词即可触发，也可用 Skill 工具显式调用。
 
-### OpenAI Codex CLI
+### OpenAI Codex（CLI 与 Mac 桌面应用）
 
 ```bash
 git clone <repo-url> ~/.codex/skills/seedance-studio
 ```
 
-对话中用 `$seedance-studio` 显式调用，或描述需求隐式触发。
+Codex 桌面应用与 CLI 共用 `~/.codex/skills/`。对话中**优先用 `$seedance-studio` 显式调用**（比靠描述隐式触发可靠）。
 
-### 跨运行时通用目录（Codex / GitHub Copilot CLI / Gemini CLI）
+### 跨运行时通用目录（GitHub Copilot CLI / Gemini CLI）
 
-以上工具均识别 `~/.agents/skills/` 作为跨运行时 skill 目录：
+部分工具识别 `~/.agents/skills/` 作为跨运行时 skill 目录：
 
 ```bash
 git clone <repo-url> ~/.agents/skills/seedance-studio
 ```
+
+注意：有社区反馈新版 Codex 不再发现 `~/.agents/skills/` 下的本地 skill，Codex 请使用上面的 `~/.codex/skills/`。
 
 ### Cursor / Cline / TRAE / 其他 Agent
 
@@ -70,7 +73,7 @@ cd <安装目录>/seedance-studio && git pull
 
 ```
 SKILL.md           路由 + 五阶段流程 + 硬约束（宿主加载的入口）
-references/        01采访 02剧本 03资产 04分镜 05模板2.0 06模板2.5 07连载 08词库 09敏感词 10QA
+references/        01采访 02剧本 03资产 04分镜 05模板2.0 06模板2.5 07连载 08词库 09敏感词 10QA 11拆条
 templates/         剧本 / 素材清单 / 分镜脚本(8+1区块) / 状态胶囊
 examples/          黄金范例：冷宫美食工坊(2.0) / 武松打虎(2.5)
 scripts/           check_prompt.py 提示词自检器
