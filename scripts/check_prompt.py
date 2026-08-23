@@ -133,6 +133,12 @@ def main():
             errors.append(f"sound.constant: 声音行缺少字面常量「{c}」")
     if "【参考】" not in text and "【素材声明】" not in text and "@图" not in text:
         warnings.append("reference.missing: 无任何参考素材引用（单条纯文生视频可忽略）")
+    else:
+        refs = sorted({int(n) for n in re.findall(r"@图片?(\d+)", text)})
+        if refs:
+            print(f"[info] 引用素材槽 {len(refs)} 个：图片{'、'.join(map(str, refs))}"
+                  " —— 人工核对：清单表行数一致、每行有状态列、"
+                  "「需生成」的都附了 T2I 提示词")
     if args.version == "2.5" and ("@图" in text or "@视频" in text) \
             and "【素材声明】" not in text:
         warnings.append("assets.decl: 2.5 引用了素材但缺少【素材声明】区块"
