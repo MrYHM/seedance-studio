@@ -4,8 +4,8 @@
 用法: python3 check_prompt.py <提示词文件> --duration <总秒数> [--version 2.0|2.5] [--long]
 
 检查: 单条时长上限(2.0≤15s/2.5≤30s/--long≤180s)、时间码(从0开始/递增/无断档/
-      无重叠/总时长)、镜头密度与时长变奏、台词语速、必需区块、声音行常量、
-      素材声明(2.5)、字数预算、slop 词。error 退出码 1。
+      无重叠/总时长)、镜头密度与时长变奏、景别变奏(连续同景别≤2镜)、台词语速、
+      必需区块、声音行常量、素材声明(2.5)、字数预算、slop 词。error 退出码 1。
 一条提示词 = 一次生成的完整时间轴；--duration 传本条时长（多段时逐段各跑一次）。
 只做结构校验，不评判创意质量。
 """
@@ -19,6 +19,11 @@ SEG_RE = re.compile(
 )
 QUOTE_RE = re.compile(r"「([^」]*)」")
 CJK_RE = re.compile(r"[一-鿿]")
+# 景别词按长度优先匹配；映射到景别档位用于变奏检查
+SCALE_RE = re.compile(r"大远景|大全景|小全景|大特写|中近景|远景|全景|中景|近景|特写")
+SCALE_FAMILY = {"大特写": "特写", "特写": "特写", "近景": "近景", "中近景": "近景",
+                "中景": "中景", "大远景": "全/远景", "远景": "全/远景",
+                "大全景": "全/远景", "小全景": "全/远景", "全景": "全/远景"}
 
 REQUIRED_BLOCKS = ["【风格与画质】", "【声音】", "【限制】"]
 SOUND_CONSTANTS = ["不要生成任何背景音乐", "不要生成任何字幕"]
@@ -87,8 +92,9 @@ def main():
                                     "（快剪组最多 2-3 镜，之后用中景/全景收住）")
                     break
 
-        # --- 台词语速（按镜分配）---
+        # --- 台词语速 + 景别提取（按镜分配）---
         matches = list(SEG_RE.finditer(text))
+        families = []
         for i, m in enumerate(matches):
             span_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
             span = text[m.end():span_end]
@@ -103,6 +109,20 @@ def main():
             if total > dur * 6:
                 errors.append(f"dialogue.speed: 第{i+1}镜台词共 {total} 字 > "
                               f"时长 {dur:g}s × 6 = {dur*6:g} 字，拆镜或删词")
+            sm = SCALE_RE.search(span[:40])
+            families.append(SCALE_FAMILY.get(sm.group(0)) if sm else None)
+
+        # --- 景别变奏（连续同景别 ≤2 镜）---
+        run = 1
+        for i in range(1, len(families)):
+            if families[i] is not None and families[i] == families[i - 1]:
+                run += 1
+                if run == 3:
+                    warnings.append(
+                        f"pacing.scale: 第{i-1}-{i+1}镜起连续 ≥3 镜同为{families[i]}——"
+                        "连续同景别 ≤2 镜，穿插其他景别或改镜内推拉（见 04-storyboard.md 景别变奏）")
+            else:
+                run = 1
 
     # --- 必需区块 ---
     for blk in REQUIRED_BLOCKS:
