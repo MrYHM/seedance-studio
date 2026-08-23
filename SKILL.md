@@ -19,7 +19,7 @@ description: Use when 用户想生成 Seedance/即梦视频提示词，把创意
 |---|---|---|---|
 | 0 采访 | 先给「迷你方案」再让用户微调 | 用户认可方案 | references/01-interview.md |
 | 1 剧本 | 核心梗→人物小传→分集大纲→△体剧本 | **用户确认分集大纲后才写正文** | references/02-script.md |
-| 2 资产 | C/S/P 素材清单 + 参考图 T2I 提示词 | — | references/03-assets.md |
+| 2 资产 | C/S/P 素材清单 + 参考图 T2I 提示词 | **素材清单（含 T2I 提示词）交付并确认后才进分镜** | references/03-assets.md |
 | 3 分镜 | 节拍表→镜头类型→shot list | **用户确认 shot list 后才编译** | references/04-storyboard.md |
 | 4 编译 | 输出 8+1 区块提示词 + 自检 | check_prompt.py 通过 | references/05-prompt-v20.md 或 06-prompt-v25.md |
 | 5 连载 | 尾帧五要素 + 抽帧接力 + 状态胶囊 | — | references/07-series.md |
@@ -27,6 +27,8 @@ description: Use when 用户想生成 Seedance/即梦视频提示词，把创意
 **Fast Lane**：用户只要一条简单的单镜/单条视频（「来一条 15 秒的 XX」）时，跳过 Phase 1-2 的仪式：快速采访（≤3 问）→ 直接排节拍分镜 → 编译。不要对简单请求跑完整 gate 循环。多集、有剧情、有固定角色的请求必须走全流程。
 
 **拆条与停顿**：单集时长超过单条上限（2.0 为 15s / 2.5 标准为 30s）时，先读 references/11-segmentation.md 完成版本与拆条决策再排分镜。每完成一段/一集就停下交付并等用户确认，禁止一次性批量产出多集或多段。
+
+**Phase 2 不可跳过**：用户已有现成剧本、只要某一集分镜，**不构成跳过资产阶段的理由**——只有 Fast Lane（单条、无多集计划、角色 ≤2 且不要求跨条一致）才能跳。跳过 Phase 2 会导致交付里只有「素材上传清单」而没有生成这些图的 T2I 提示词，用户拿不到可执行的产物。分镜阶段新出现的素材按 references/03-assets.md「增量资产」补号并即时给 T2I 提示词。
 
 ## 硬约束（任何阶段不得违反）
 
