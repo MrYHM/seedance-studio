@@ -34,6 +34,8 @@ Fast Lane：单条简单需求跳过 Phase 1-2 仪式。
 
 ## 借鉴来源图谱
 
+许可证与署名信息见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+
 - Emily2040/seedance-2.0：Fast Lane、渐进加载、导演读内部字段、反 slop、压缩优先级、状态胶囊
 - liangdabiao/Seedance2-Storyboard-Generator：六步改编法、幕结构自适应、△体剧本、C/S/P 编号、尾帧五要素、抽帧接力
 - A-cat-with-carrots/OnlyShot：阶段 gate、节奏地图按秒爆点、敏感词替换表、对白 7 原则、时长变奏

@@ -18,16 +18,16 @@
 
 ## 安装
 
-本仓库为私有仓库，克隆前需配置 GitHub 认证（`gh auth login` 或 SSH key）。以下 `<repo-url>` 指本仓库地址。
+本 skill 为纯 Markdown + 一个 Python 脚本，无宿主私有依赖，可装到任意支持 Agent Skills 的工具中。
 
 ### Claude Code
 
 ```bash
 # 全局安装（所有项目可用）
-git clone <repo-url> ~/.claude/skills/seedance-studio
+git clone https://github.com/MrYHM/seedance-studio.git ~/.claude/skills/seedance-studio
 
 # 或仅当前项目
-git clone <repo-url> .claude/skills/seedance-studio
+git clone https://github.com/MrYHM/seedance-studio.git .claude/skills/seedance-studio
 ```
 
 重启会话后自动注册，说「视频提示词 / 分镜 / 短剧」等关键词即可触发，也可用 Skill 工具显式调用。
@@ -35,7 +35,7 @@ git clone <repo-url> .claude/skills/seedance-studio
 ### OpenAI Codex（CLI 与 Mac 桌面应用）
 
 ```bash
-git clone <repo-url> ~/.codex/skills/seedance-studio
+git clone https://github.com/MrYHM/seedance-studio.git ~/.codex/skills/seedance-studio
 ```
 
 Codex 桌面应用与 CLI 共用 `~/.codex/skills/`。对话中**优先用 `$seedance-studio` 显式调用**（比靠描述隐式触发可靠）。
@@ -45,7 +45,7 @@ Codex 桌面应用与 CLI 共用 `~/.codex/skills/`。对话中**优先用 `$see
 部分工具识别 `~/.agents/skills/` 作为跨运行时 skill 目录：
 
 ```bash
-git clone <repo-url> ~/.agents/skills/seedance-studio
+git clone https://github.com/MrYHM/seedance-studio.git ~/.agents/skills/seedance-studio
 ```
 
 注意：有社区反馈新版 Codex 不再发现 `~/.agents/skills/` 下的本地 skill，Codex 请使用上面的 `~/.codex/skills/`。
@@ -54,14 +54,18 @@ git clone <repo-url> ~/.agents/skills/seedance-studio
 
 任何能读文件、按 Markdown 指令工作的 Agent 都可使用（本 skill 无宿主私有依赖，全部为相对路径 Markdown + 一个 Python 脚本）：
 
-1. 克隆到任意目录，如 `git clone <repo-url> ~/skills/seedance-studio`
+1. 克隆到任意目录，如 `git clone https://github.com/MrYHM/seedance-studio.git ~/skills/seedance-studio`
 2. 在项目规则（如 Cursor 的 Project Rules、Cline 的 .clinerules）中加入一行：
    > 当用户要生成 Seedance/即梦视频提示词、改编剧本或拆分分镜时，先读取 ~/skills/seedance-studio/SKILL.md 并严格按其指引工作。
 3. 或每次对话开头直接说：「读取 ~/skills/seedance-studio/SKILL.md 并按它帮我……」
 
 ### skills CLI（社区工具，可选）
 
-公开仓库可用 `npx skills add <owner>/<repo>` 一键安装到多种 Agent；**私有仓库需先 `gh auth login`**，或直接用上面的 git clone 方式。
+```bash
+npx skills add MrYHM/seedance-studio
+```
+
+一键安装到多种 Agent；也可直接用上面的 git clone 方式。
 
 ## 更新
 
@@ -78,4 +82,22 @@ templates/         剧本 / 素材清单 / 分镜脚本(8+1区块) / 状态胶�
 examples/          黄金范例：冷宫美食工坊(2.0) / 武松打虎(2.5)
 scripts/           check_prompt.py 提示词自检器
 DESIGN.md          设计文档（决策记录与借鉴来源）
+LICENSE            MIT
+THIRD-PARTY-NOTICES.md  第三方参考项目署名与许可
 ```
+
+## 许可证
+
+[MIT](LICENSE) © 2026 MrYHM
+
+本项目参考了若干社区项目的方法论，署名与许可信息见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+
+## 声明
+
+Seedance、即梦为字节跳动的产品与商标，Claude Code 为 Anthropic 的产品，Codex 为 OpenAI 的产品。本项目是独立的第三方工具，与上述公司无隶属、赞助或背书关系，提及这些名称仅用于说明兼容性。
+
+本 skill 只产出文本提示词，不调用任何视频生成 API，也不附带任何模型权重或平台凭证。使用时请遵守所用平台的服务条款与内容政策。
+
+## 反馈
+
+欢迎提 issue 讨论分镜方法论、提示词结构或平台参数的变化。
