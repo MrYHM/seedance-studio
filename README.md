@@ -1,5 +1,8 @@
 # seedance-studio
 
+[![regression](https://github.com/MrYHM/seedance-studio/actions/workflows/regression.yml/badge.svg)](https://github.com/MrYHM/seedance-studio/actions/workflows/regression.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 个人 Claude Code / Agent Skill：把一句话创意、故事或小说改编为多集短剧剧本，拆分为分镜头脚本，编译成可直接粘贴到 Seedance（即梦）2.0 / 2.5 的视频提示词，并管理多集连载的集间衔接。
 
 - 默认 Seedance 2.0（时间轴体），可切 2.5（Shot 体）
@@ -97,6 +100,18 @@ THIRD-PARTY-NOTICES.md  第三方参考项目署名与许可
 Seedance、即梦为字节跳动的产品与商标，Claude Code 为 Anthropic 的产品，Codex 为 OpenAI 的产品。本项目是独立的第三方工具，与上述公司无隶属、赞助或背书关系，提及这些名称仅用于说明兼容性。
 
 本 skill 只产出文本提示词，不调用任何视频生成 API，也不附带任何模型权重或平台凭证。使用时请遵守所用平台的服务条款与内容政策。
+
+## 贡献
+
+`main` 分支受保护，所有改动走 PR：fork → 建分支 → 提 PR。PR 会自动跑回归（校验器 12 项用例 + SKILL.md 结构自检），通过并经 review 后合并。
+
+本地跑回归：
+
+```bash
+python3 tests/run_regression.py
+```
+
+改动 `SKILL.md` 的硬约束或新增 `references/` 文件时，请确认编号连续且交叉引用有效——CI 会检查这两项。
 
 ## 反馈
 
