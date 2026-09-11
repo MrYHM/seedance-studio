@@ -27,6 +27,8 @@ https://github.com/woyin2024/lengyi-seedance2.5-prompt — MIT License
 - liangdabiao/Seedance2-Storyboard-Generator — https://github.com/liangdabiao/Seedance2-Storyboard-Generator
 - huangbai-AI/sd-2-5-prompt — https://github.com/huangbai-AI/sd-2-5-prompt
 
+参考范围仅限方法论层面（如「限制段只选 3-8 项」这类原则）。本项目的全部文档文字与 `scripts/check_prompt.py` 均为原创，未复制上述项目的代码或文本。
+
 如上述任一项目的版权方认为本项目存在不当使用，请提 issue 或直接联系，我会及时移除或重写相应内容。
 
 ## 商标与关联关系

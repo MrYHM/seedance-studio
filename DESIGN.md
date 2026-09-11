@@ -39,7 +39,7 @@ Fast Lane：单条简单需求跳过 Phase 1-2 仪式。
 - Emily2040/seedance-2.0：Fast Lane、渐进加载、导演读内部字段、反 slop、压缩优先级、状态胶囊
 - liangdabiao/Seedance2-Storyboard-Generator：六步改编法、幕结构自适应、△体剧本、C/S/P 编号、尾帧五要素、抽帧接力
 - A-cat-with-carrots/OnlyShot：阶段 gate、节奏地图按秒爆点、敏感词替换表、对白 7 原则、时长变奏
-- huangbai-AI/sd-2-5-prompt：限制段方法论（3-8项、先修矛盾）、规避词库、动作因果链、check_prompt.py 原型、台词语速系数
+- huangbai-AI/sd-2-5-prompt：限制段方法论（3-8项、先修矛盾）、规避词库、动作因果链、台词语速系数
 - woyin2024/lengyi-seedance2.5-prompt：资产锚定、镜头数=算出来的、情绪可见写法、每镜三要素、自报字数
 
 ## 明确不做

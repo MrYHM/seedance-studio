@@ -1,0 +1,33 @@
+name: regression
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check-prompt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 校验器回归（黄金范例 + 负向用例）
+        run: python3 tests/run_regression.py
+      - name: SKILL.md 结构自检
+        run: |
+          set -e
+          # 硬约束编号必须连续
+          nums=$(sed -n '/## 硬约束/,/## 输出契约/p' SKILL.md | grep -oE '^[0-9]+\.' | tr -d '.')
+          expected=$(seq 1 $(echo "$nums" | wc -l | tr -d ' '))
+          if [ "$(echo $nums)" != "$(echo $expected)" ]; then
+            echo "硬约束编号不连续: $(echo $nums)"; exit 1
+          fi
+          # 交叉引用的 reference 文件必须存在
+          miss=0
+          for f in $(grep -ohE 'references/[0-9]{2}-[a-z-]+\.md' SKILL.md references/*.md templates/*.md | sort -u); do
+            [ -f "$f" ] || { echo "缺失引用: $f"; miss=1; }
+          done
+          [ $miss -eq 0 ]
+          echo "SKILL.md 结构自检通过"
